@@ -5,6 +5,6 @@ import { authMiddleware } from '../middlewares/auth.middleware.js'
 const router=express.Router()
 
 router.post("/createcomment",authMiddleware,createComment)
-router.get("/getcomment/:productId",authMiddleware,getComment)
+router.get("/getcomment/:productId",getComment)
 
 export default router

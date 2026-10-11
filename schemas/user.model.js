@@ -18,6 +18,10 @@ unique: true
 avatar:{
 type:String,
 default:""
+},
+location:{
+type:String,
+default:""
 }
   },
   {

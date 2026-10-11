@@ -38,6 +38,11 @@ images:{
 type:[String],
 required:true
 },
+status:{
+type:String,
+enum:["Available","Booked","Sold"],
+default:"Available"
+}
 },{timestamps:true})
 
 export const productModel=new model("product",productSchema)

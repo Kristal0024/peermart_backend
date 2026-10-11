@@ -2,6 +2,8 @@ import cloudinary from "../configs/cloudinary.js";
 import { productModel } from "../schemas/product.model.js";
 import {Readable} from 'stream'
 
+
+//create product listing
 export const createProduct=async(req,res)=>{
 try{
 
@@ -50,6 +52,7 @@ error:error.message
 }
 }
 
+//Get all products
 export const getProducts=async(req,res)=>{
 try {
     const response=await productModel.find().populate("seller","name email avatar")
@@ -65,6 +68,7 @@ message:"couldnot fetch products"
 }
 }
 
+//Get product by Id
 export const getproductbyId=async(req,res)=>{
 try {
     const {id}=req.params
@@ -77,6 +81,33 @@ product:product
     console.log(error)
 res.status(401).json({
 message:"couldnot fetch product"
+})
+}
+}
+
+//Get user total listing status
+export const getMyListingStats=async(req,res)=>{
+try {
+    const products=await productModel.find({
+seller:req.user.id
+})
+const available=products.filter((product)=>
+product.status==="Available"
+).length
+const sold=products.filter((product)=>
+product.status=="Sold"
+).length
+const booked=products.filter((product)=>
+product.status==="Booked"
+).length
+const activeListing=available+booked
+res.status(201).json({
+activeListing,
+sold
+})
+} catch (error) {
+    res.status(400).json({
+message:"couldnot fetch listing stats"
 })
 }
 }

@@ -56,10 +56,6 @@ commentMap.set(comment._id.toString(),comment)
       message: "Comments fetched successfully",
       comments,
     });
-res.status(200).json({
-message:"comments fetched successful",
-comments:response
-})
 } catch (error) {
     console.log(error)
 res.status(400).json({
