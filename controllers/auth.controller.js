@@ -62,10 +62,16 @@ export const login = async (req, res) => {
         expiresIn: "1d",
       },
     );
+res.cookie("token",token,{
+httpOnly:true,
+secure:process.env.NODE_ENV==="production",
+sameSite:"strict",
+  maxAge: 24 * 60 * 60 * 1000,
+  path: "/",
 
+})
     res.status(200).json({
       message: "Login successful",
-      token,
       user: {
         id: user._id,
         name: user.name,
@@ -79,3 +85,27 @@ export const login = async (req, res) => {
     });
   }
 };
+export const logout=async(req,res)=>{
+try {
+  res.clearCookie("token",{
+httpOnly:true,
+secure:process.env.NODE_ENV==="production",
+sameSite:"strict",
+path:"/"
+})
+res.status(200).json({
+message:"Logged out successfully"
+})
+} catch (error) {
+  res.status(500).json({
+message:"log out Failed",
+error:error.message
+})
+}
+}
+
+export const getCurrentUser=(req,res)=>{
+  res.status(200).json({
+user:req.user,
+})
+}
